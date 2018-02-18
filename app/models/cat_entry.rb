@@ -16,10 +16,20 @@ class CatEntry < ActiveRecord::Base
 
   ### Scopes ###
 
-  # Default scope excludes resolved entries
-  default_scope -> { where(:resolved => [false, nil]) }
+  # # Default scope excludes resolved entries
+  # default_scope -> { where(:resolved => [false, nil]) }
 
-  scope :found, -> { where(:entry_type => :found) }
-  scope :lost, -> { where(:entry_type => :lost) }
-  scope :resolved, -> { unscoped.where(:resolved => true) }
+  # scope :found, -> { where(:entry_type => :found) }
+  # scope :lost, -> { where(:entry_type => :lost) }
+  # scope :resolved, -> { unscoped.where(:resolved => true) }
+  
+  
+  
+  def self.count_last_30_days
+    CatEntry.where("created_at > ?", 30.days.ago).count
+  end
+  
+  def self.entries_last_30_days
+    CatEntry.where("created_at > ?", 30.days.ago)
+  end
 end
